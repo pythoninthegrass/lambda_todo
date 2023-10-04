@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+GIT_ROOT="$(git rev-parse --show-toplevel 2>/dev/null)"
+SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
+
+# get the root directory
+if [ -n "$GIT_ROOT" ]; then
+	TLD="$(git rev-parse --show-toplevel)"
+else
+	TLD="${SCRIPT_DIR}"
+fi
+
+# remove .venv
+rm -rf .venv
+
+# install .venv
+python -m venv .venv
+
+# activate .venv
+# source .venv/bin/activate
+
+# install requirements
+# python -m pip install -r requirements.txt
+
+# deactivate .venv
+# deactivate
+
+# install dependencies via poetry
+poetry install --no-dev --no-ansi
+
+# remove lambda_function.zip
+rm -f lambda_function.zip
+
+# remove dist-info
+find . -name "*dist-info" -exec rm -rf {} +
+
+# zip .venv packages
+cd .venv/lib/python3.11/site-packages/
+zip -r "${TLD}/lambda_function.zip" .
+cd "$TLD"
+
+# add our fastapi file and the json file
+zip lambda_function.zip -u main.py
+zip lambda_function.zip -u books.json
+
+# TODO: upload to s3

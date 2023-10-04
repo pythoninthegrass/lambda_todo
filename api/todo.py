@@ -1,12 +1,14 @@
+#!/usr/bin/env python3
+
+import boto3
 import os
 import time
-import boto3
-from typing import Optional
-from uuid import uuid4
+from boto3.dynamodb.conditions import Key
 from fastapi import FastAPI, HTTPException
 from mangum import Mangum
 from pydantic import BaseModel
-from boto3.dynamodb.conditions import Key
+from typing import Optional
+from uuid import uuid4
 
 app = FastAPI()
 handler = Mangum(app)
@@ -24,6 +26,7 @@ async def root():
     return {"message": "Hello from ToDo API!"}
 
 
+# TODO: test post vs. put
 @app.put("/create-task")
 async def create_task(put_task_request: PutTaskRequest):
     created_time = int(time.time())

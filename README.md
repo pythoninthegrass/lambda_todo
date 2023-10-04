@@ -3,7 +3,7 @@
 This project is a full-stack CRUD app (a todo-list) with a Python FastAPI backend and a
 NextJS frontend. It is hosted on serverless AWS infrastructure (using Lambda and DynamoDB).
 
-![Task API app](task_api.png)
+![Task API app](static/task_api.png)
 
 ## API Folder
 
@@ -32,7 +32,7 @@ cdk bootstrap
 Before you can deploy you need to build the front-end folder. Go into the `todo-site` folder and
 build the NextJS app.
 
-```bash
+```bash 
 npm run build
 ```
 
@@ -86,3 +86,8 @@ You can run the test like this (but you have to have `pytest` installed):
 ```bash
 pytest
 ```
+
+## TODO
+* Add taskfile
+* Switch to bun
+* Add playwright
