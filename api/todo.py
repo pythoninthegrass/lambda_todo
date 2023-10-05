@@ -97,3 +97,10 @@ async def delete_task(task_id: str):
 def _get_table():
     table_name = os.environ.get("TABLE_NAME")
     return boto3.resource("dynamodb").Table(table_name)
+
+
+# local testing
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(app, host="0.0.0.0", port=8000)
